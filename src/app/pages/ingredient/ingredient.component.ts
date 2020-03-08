@@ -69,7 +69,7 @@ export class IngredientComponent implements OnInit {
           //this.loadClientList();
           //this.message.create('success', `Cliente nuevo guardado`);
         //})
-      }else if (this.ingredientSelected.name != this.name){
+      } else {
         console.log('the ingredient register will be update');
         this.ingredientSelected.name = this.name;
         //this.clientService.updateClient(this.ingredientSelected).subscribe(()=>{

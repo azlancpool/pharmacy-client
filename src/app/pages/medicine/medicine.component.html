@@ -1,1 +1,82 @@
-<p>medicine works!</p>
+<nz-modal
+      [(nzVisible)]="isVisible"
+      nzTitle="{{modalTitle}}"
+      (nzOnCancel)="handleCancel($event)"
+      (nzOnOk)="handleOk($event)"
+>
+  <p>
+        <nz-input-group [nzPrefix]="prefixTemplate" nzRequired>
+            <label>Nombre del medicamento</label><br/>
+            <input type="text" [(ngModel)]="name" nz-input maxlength="10"/>
+        </nz-input-group>
+        <br/>
+        <nz-input-group [nzPrefix]="prefixTemplate" nzRequired>
+            <label>Fecha de expiración</label><br/>
+            <input type="text" [(ngModel)]="posology" nz-input maxlength="10"/>
+        </nz-input-group>
+        <br/>
+        <nz-input-group [nzPrefix]="prefixTemplate" nzRequired>
+            <label>Fecha de expiración</label><br/>
+            <nz-date-picker [(ngModel)]="expirationDate" (ngModelChange)="onChange($event)" ></nz-date-picker>
+        </nz-input-group>
+        <br/>
+        <nz-input-group [nzPrefix]="prefixTemplate" nzRequired>
+            <label>Ingredientes asociados</label><br/>
+            <nz-select
+                nzMode="multiple"
+                nzPlaceHolder="Ingredientes"
+                [(ngModel)]="ingredientsSelected">
+            <nz-option *ngFor="let a of ingredients" [nzLabel]="a.name" [nzValue]="a"></nz-option>
+            </nz-select>
+        </nz-input-group>
+  </p>
+</nz-modal>
+
+<button nz-button (click)="newMedicine()">Nuevo</button>
+
+<nz-divider></nz-divider>
+<nz-table #nestedTable [nzData]="medicines">
+  <thead (nzSortChange)="sort($event)" nzSingleSort>
+    <tr>
+        <th nzShowExpand>Ingredientes</th>
+        <th>Nombre</th>
+        <th>Posología</th>
+        <th>Fecha de expiración</th>
+        <th>Acción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+        <tr>
+            <td nzShowExpand [(nzExpand)]="data.expand"></td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.posology }}</td>
+            <td>{{ data.expirationDate }}</td>
+            <td>
+                <button nz-button nzType="default" (click)="editMedicine(data)"><i nz-icon type="edit"></i>Editar</button>
+                <nz-divider nzType="vertical"></nz-divider>
+                <button nz-popconfirm nzTitle="Seguro que desea eliminar este registro?" (nzOnConfirm)="deleteMedicine(data)" (nzOnCancel)="cancel()"
+                nzPlacement="topLeft" nzType="danger" nz-button><i nz-icon type="minus-circle"></i>Eliminar
+                </button>
+            </td>
+        </tr>
+        <tr [nzExpand]="data.expand">
+            <td></td>
+            <td colspan="5">
+                <nz-table #innerTable [nzData]="data.ingredients" nzSize="middle" [nzShowPagination]="false">
+                    <thead>
+                    <tr>
+                        <th>Ingredientes</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of innerTable.data">
+                            <td>{{ data.name }}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </td>
+        </tr>
+    </ng-template>
+  </tbody>
+</nz-table>

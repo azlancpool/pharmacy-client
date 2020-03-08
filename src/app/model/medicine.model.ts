@@ -4,6 +4,7 @@ export class Medicine {
     id: number;
     name: string;
     posology: string;
-    expirationDate: string;
+    expirationDate: Date;
     ingredients: Ingredient[];
+    expand: boolean;
 }
