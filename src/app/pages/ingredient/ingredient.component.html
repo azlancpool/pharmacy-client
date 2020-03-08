@@ -1,1 +1,40 @@
-<p>ingredient works!</p>
+<nz-modal
+      [(nzVisible)]="isVisible"
+      nzTitle="{{modalTitle}}"
+      (nzOnCancel)="handleCancel($event)"
+      (nzOnOk)="handleOk($event)"
+>
+  <p>
+      <nz-input-group [nzPrefix]="prefixTemplate" nzRequired>
+        <input type="text" [(ngModel)]="name" nz-input placeholder="Nombre del Ingrediente" maxlength="10"/>
+      </nz-input-group>
+  </p>
+</nz-modal>
+
+<button nz-button (click)="newIngredient()">Nuevo</button>
+
+<nz-divider></nz-divider>
+<nz-table #filterTable [nzData]="ingredients">
+  <thead (nzSortChange)="sort($event)" nzSingleSort>
+    <tr>
+      <th>
+        Nombre
+      </th>
+      <th>
+        Acción
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of filterTable.data">
+      <td>{{ data.name }}</td>
+      <td>
+        <button nz-button nzType="default" (click)="editIngredient(data)"><i nz-icon type="edit"></i>Editar</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-popconfirm nzTitle="Seguro que desea eliminar este registro?" (nzOnConfirm)="deleteIngredient(data)" (nzOnCancel)="cancel()"
+          nzPlacement="topLeft" nzType="danger" nz-button><i nz-icon type="minus-circle"></i>Eliminar
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
