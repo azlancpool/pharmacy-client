@@ -12,6 +12,7 @@ import { registerLocaleData } from '@angular/common';
 import es from '@angular/common/locales/es';
 import { IngredientComponent } from './pages/ingredient/ingredient.component';
 import { MedicineComponent } from './pages/medicine/medicine.component';
+import { WelcomeComponent } from './pages/welcome/welcome.component';
 
 registerLocaleData(es);
 
@@ -19,7 +20,8 @@ registerLocaleData(es);
   declarations: [
     AppComponent,
     IngredientComponent,
-    MedicineComponent
+    MedicineComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,
